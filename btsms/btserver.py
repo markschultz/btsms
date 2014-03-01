@@ -2,6 +2,7 @@ import os, struct, sys
 from PyOBEX import headers, requests, responses, server
 import bluetooth
 from bluetooth import OBEX_UUID, RFCOMM_UUID
+from multiprocessing import Queue
 
 MESSAGE_NOTIFICATION_SERVER_CLASS = '1133'
 MESSAGE_ACCESS_PROFILE = '1134', 256
@@ -40,7 +41,6 @@ def run_server(q):
 
 
 if __name__ == "__main__":
-    while True:
-        run_server()
-
+    q = Queue()
+    run_server(q)
     sys.exit()

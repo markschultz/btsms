@@ -46,9 +46,9 @@ resp = c.setpath(name="msg")
 msg = "BEGIN:BMSG\r\nVERSION:1.0\r\nSTATUS:READ\r\nTYPE:SMS_CDMA\r\nFOLDER:telecom/msg/outbox\r\nBEGIN:VCARD\r\nVERSION:2.1\r\nFN:Mark Schultz\r\nTEL:8477722763\r\nEND:VCARD\r\nBEGIN:BENV\r\nBEGIN:VCARD\r\nVERSION:2.1\r\nFN:GrandCentral\r\nTEL:3124361855\r\nEND:VCARD\r\nBEGIN:BBODY\r\nCHARSET:UTF-8\r\nLENGTH:{1}\r\nBEGIN:MSG\r\n{0}\r\nEND:MSG\r\nEND:BBODY\r\nEND:BENV\r\nEND:BMSG\r\n"
 body = "test message"
 msg = msg.format(body, len(body))
-resp = c.put(name="outbox", file_data=msg,
-             header_list=[headers.Type("x-bt/message"),
-                          headers.App_Parameters('\x14\x01\x01')])
+#resp = c.put(name="outbox", file_data=msg,
+             #header_list=[headers.Type("x-bt/message"),
+                          #headers.App_Parameters('\x14\x01\x01')])
 q = Queue()
 p = Process(target=btserver.run_server, args=(q,))
 p.start()
