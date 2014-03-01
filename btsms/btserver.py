@@ -27,12 +27,12 @@ def run_server(q):
         description = "Message Notification Server for MAP Profile"
         protocols = [RFCOMM_UUID, OBEX_UUID]
         socket = mns_server.start_service(port,
-                                          name, 
-                                          uuid, 
-                                          service_classes, 
-                                          service_profiles, 
-                                          provider, 
-                                          description, 
+                                          name,
+                                          uuid,
+                                          service_classes,
+                                          service_profiles,
+                                          provider,
+                                          description,
                                           protocols)
         mns_server.serve(socket)
     except IOError:
@@ -42,5 +42,5 @@ def run_server(q):
 if __name__ == "__main__":
     while True:
         run_server()
-    
+
     sys.exit()
