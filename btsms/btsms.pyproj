@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>d249e851-e36f-422c-8ce5-3efae4bc97a6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>btserver.py</StartupFile>
+    <StartupFile>btsms.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

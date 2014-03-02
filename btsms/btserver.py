@@ -11,8 +11,28 @@ class MNS(server.Server):
         server.Server.__init__(self)
         self.q = q
 
+    def sendall(self, socket, data):
+        while data:
+            ret = socket.send(data)
+            assert ret > 0
+            data = data[ret:]
+    
+    def send_response(self, socket, response, header_list = []):
+    
+        while header_list:
+        
+            if response.add_header(header_list[0], self._max_length()):
+                header_list.pop(0)
+            else:
+                self.sendall(socket, response.encode())
+                response.reset_headers()
+        
+        # Always send at least one request.
+        self.sendall(socket, response.encode())
+    
     def put(self, socket, request):
-        q.put("put operation")
+        print("got put")
+        q.put(request)
 
 def run_server(q):
     try:

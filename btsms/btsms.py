@@ -1,6 +1,7 @@
 #! /usr/bin/python2
 import bluetooth
 import btserver
+import time
 from multiprocessing import Process, Queue
 from PyOBEX import client, headers
 
@@ -12,8 +13,9 @@ def SetNotificationRegistration(c, connect):
               headers.Type("x-bt/MAP-NotificationRegistration"), happ])
     print ("Notification Registration:" + str(connect))
 
-devices = bluetooth.discover_devices()
-address = ""
+#devices = bluetooth.discover_devices()
+devices = ""
+address = "30:19:66:bc:8e:94"
 for d in devices:
     print ("device name: " + bluetooth.lookup_name(d) + " @ " + d)
     if bluetooth.lookup_name(d) == "SM-N900V":
@@ -29,7 +31,6 @@ for s in services:
         s['name'], s['port'], s['profiles']))
 
 map = bluetooth.find_service(uuid="1134", address=address)[0]
-#map = bluetooth.find_service(uuid = "1105", address = address)[0]
 port = map['port']
 print ("connecting to map")
 c = client.Client(address, port)
@@ -53,8 +54,13 @@ q = Queue()
 p = Process(target=btserver.run_server, args=(q,))
 p.start()
 SetNotificationRegistration(c, True)
-while True:
+#time.sleep(60)
+i = 0
+while i < 60:
     print (q.get())
-p.join()
+    time.sleep(1)
+    i = i + 1
+p.terminate()
+SetNotificationRegistration(c, False)
 c.disconnect()
 print ("disconnected, exiting")
