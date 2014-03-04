@@ -21,7 +21,8 @@ for d in devices:
     if bluetooth.lookup_name(d) == "SM-N900V":
         address = d
 
-services = bluetooth.find_service(address=address)
+#services = bluetooth.find_service(address=address)
+services = ""
 
 print ("found services: ")
 for s in services:
@@ -50,17 +51,13 @@ msg = msg.format(body, len(body))
 #resp = c.put(name="outbox", file_data=msg,
              #header_list=[headers.Type("x-bt/message"),
                           #headers.App_Parameters('\x14\x01\x01')])
-q = Queue()
-p = Process(target=btserver.run_server, args=(q,))
-p.start()
+#q = Queue()
+#p = Process(target=btserver.run_server, args=(q,))
+#p.start()
 SetNotificationRegistration(c, True)
 #time.sleep(60)
-i = 0
-while i < 60:
-    print (q.get())
-    time.sleep(1)
-    i = i + 1
-p.terminate()
+time.sleep(20)
+#p.terminate()
 SetNotificationRegistration(c, False)
 c.disconnect()
 print ("disconnected, exiting")
