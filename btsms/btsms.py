@@ -85,14 +85,13 @@ def GetMessage(c, handle):
     resp = c.get(name=handle, header_list=[headers.Type('x-by/message'), headers.App_Parameters('\x14\x01\x01')])
     return resp
 
-def GetMessageListing(c):
+def GetMessageListing(c, params):
     resp = c.get(name="inbox", header_list=[headers.Type("x-bt/MAP-msg-listing"),
-    headers.App_Parameters('\x01\x02\x00\x02\x10\x04\x00\x00\x96\x8f')])
+    headers.App_Parameters(params)])
+    #headers.App_Parameters('\x10\x04\x00\x00\x10\x6b\x13\x01\xff')])
     return resp
 
 def PushMessage(c, t, f, body):
-    msg = "BEGIN:BMSG\r\nVERSION:1.0\r\nSTATUS:READ\r\nTYPE:SMS_CDMA\r\nFOLDER:telecom/msg/outbox\r\nBEGIN:VCARD\r\nVERSION:2.1\r\nTEL:{3}\r\nEND:VCARD\r\nBEGIN:BENV\r\nBEGIN:VCARD\r\nVERSION:2.1\r\nTEL:{2}\r\nEND:VCARD\r\nBEGIN:BBODY\r\nCHARSET:UTF-8\r\nLENGTH:{1}\r\nBEGIN:MSG\r\n{0}\r\nEND:MSG\r\nEND:BBODY\r\nEND:BENV\r\nEND:BMSG\r\n"
-    msg = msg.format(body, len(body), t, f)
     resp = c.put(name="outbox", file_data=msg,
                  header_list=[headers.Type("x-bt/message"),
                               headers.App_Parameters('\x14\x01\x01')])
@@ -136,6 +135,7 @@ if __name__ == '__main__':
             s['name'], s['port'], s['profiles']))
 
     map = bluetooth.find_service(uuid="1134", address=address)[0]
+    #print(map)
     port = map['port']
     c = client.Client(address, port)
     h = headers.Target(
@@ -145,6 +145,7 @@ if __name__ == '__main__':
     resp = c.setpath(name="telecom")
     resp = c.setpath(name="msg")
     #PushMessage(c, "3124361855", "8477722763", "this is the body of the message")
+    GetMessageListing(c, '')
     SetNotificationRegistration(c, True)
     r = q.get()
     mer = mytypes.xmlToMapEventReport(r)
