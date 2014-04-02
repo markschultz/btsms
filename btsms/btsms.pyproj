@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="btsms.py" />
+    <Compile Include="module1.py" />
     <Compile Include="setup.py" />
     <Compile Include="mytypes.py" />
   </ItemGroup>

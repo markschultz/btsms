@@ -8,6 +8,7 @@ import mytypes
 #import client
 from multiprocessing import Process, Queue, freeze_support
 from PyOBEX import headers, server, responses, client
+#import headers, server, responses, client
 from xml.dom import minidom
 
 
@@ -110,7 +111,7 @@ if __name__ == '__main__':
     q = Queue()
     p = Process(target=run_server, args=(q,))
     p.daemon
-    #p.start()
+    p.start()
     #con = sql.connect("btsms.db")
     #c = con.cursor()
     #c.execute('SELECT SQLITE_VERSION()')
@@ -144,8 +145,7 @@ if __name__ == '__main__':
     print ("connected")
     resp = c.setpath(name="telecom")
     resp = c.setpath(name="msg")
-    #PushMessage(c, "3124361855", "8477722763", "this is the body of the message")
-    GetMessageListing(c, '')
+    getresp = GetMessageListing(c, '')
     SetNotificationRegistration(c, True)
     r = q.get()
     mer = mytypes.xmlToMapEventReport(r)
